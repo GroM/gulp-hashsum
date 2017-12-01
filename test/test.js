@@ -290,7 +290,7 @@ describe('gulp-hashsum', function () {
 	});
 
 
-	// FIXME: This test doesn't test this case properly. I 
+	// FIXME: This test doesn't test this case properly. I
 	it('should not accept streams', function (done) {
 		var stream = hashsum({dest: '/dir1', force: true});
 
@@ -302,7 +302,7 @@ describe('gulp-hashsum', function () {
 	it('should generate JSON when option is set', function (done) {
 		var files = ['/dir1/file1', '/dir1/file2'];
 		var stream = hashsum({
-			json: true,
+			outputType: 'json',
 			dest: '/dir1'
 		});
 

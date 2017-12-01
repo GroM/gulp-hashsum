@@ -55,36 +55,38 @@ by specifying `restart.txt` as the filename:
 
 ### `hashsum(options)`
 
-- **`options.dest`** - *string*  
-    The destination directory of the hash file.  
+- **`options.dest`** - *string*
+    The destination directory of the hash file.
     Default: `process.cwd()` (the current working directory)
 
-- **`options.filename`** - *string*  
-    The filename of the hash file.  
+- **`options.filename`** - *string*
+    The filename of the hash file.
     Default: `<HASH-NAME>SUMS` (i.e. `SHA1SUMS` when `sha1` is used as hash function)
 
-- **`options.hash`** - *string*  
-    The hash function to use. Must be one supported by 
-    [crypto](https://www.npmjs.org/package/crypto).  
+- **`options.hash`** - *string*
+    The hash function to use. Must be one supported by
+    [crypto](https://www.npmjs.org/package/crypto).
     Default: `sha1`
 
-- **`options.force`** - *boolean*  
-    Always overwrite the hashsum file, regardless of whether the contents changed.  
+- **`options.force`** - *boolean*
+    Always overwrite the hashsum file, regardless of whether the contents changed.
     Default: `false`
 
-- **`options.delimiter`** - *string*  
+- **`options.delimiter`** - *string*
     Separator between hashsum and filename.
     Default: `  ` (two spaces)
 
-- **`options.json`** - *boolean*  
-    Format hash file as a JSON object (instead of a `options.delimiter`-delimited file).
+- **`options.outputType`** - *string*
+    classic: Format in classic way (when type not recognized this is used)
+    php: Format of file is return php associative array - can be read by php as $hashes = include 'file.php'
+    json: Format hash file as a JSON object (instead of a `options.delimiter`-delimited file).
     E.g.:
 
         {
           "dir1/file1": "3ff1f9baca7bf41fe4a12222436025c036ba88bf",
           "dir1/file2": "14de86e007f14bc0c6bc9a84d21cb9da908495ae"
-        } 
-        
+        }
+
     Default: `false`
 
 

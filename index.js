@@ -10,11 +10,11 @@ var through = require('through');
 var fs = require('fs');
 var path = require('path');
 
-var compareBuffer = typeof Buffer.compare !== 'undefined' 
-		? Buffer.compare 
+var compareBuffer = typeof Buffer.compare !== 'undefined'
+		? Buffer.compare
 		: function (a, b) {
-			// Naive implementation of Buffer comparison for older 
-			// Node versions. Doesn't follow the same spec as 
+			// Naive implementation of Buffer comparison for older
+			// Node versions. Doesn't follow the same spec as
 			// Buffer.compare, but we're only interested in equality.
 			if (a.length !== b.length) {
 				return -1;
@@ -33,7 +33,7 @@ function hashsum(options) {
 		hash: 'sha1',
 		force: false,
 		delimiter: '  ',
-		json: false
+		outputMode: 'classic'
 	});
 	options = _.defaults(options, { filename: options.hash.toUpperCase() + 'SUMS' });
 
@@ -59,14 +59,24 @@ function hashsum(options) {
 
 	function writeSums() {
 		var contents;
-		if (options.json) {
-			contents = JSON.stringify(hashes);
-		}
-		else {
-			var lines = _.keys(hashes).sort().map(function (key) {
-				return hashes[key] + options.delimiter + key + '\n';
-			});
-			contents = lines.join('');
+		switch(options.outputMode)
+		{
+			case 'json':
+				contents = JSON.stringify(hashes);
+				break;
+			case 'php':
+				var lines = ['<?php\nreturn array('];
+				_.toPairs(hashes).forEach(function (v) {
+					lines.push(v[0] + ' => ' + v[1] + ',');
+				});
+				lines.push(');\n')
+				contents = lines.join('\n');
+				break;
+			default:
+				var lines = _.keys(hashes).sort().map(function (key) {
+					return hashes[key] + options.delimiter + key;
+				});
+				contents = lines.join('\n');
 		}
 		var data = new Buffer(contents);
 
